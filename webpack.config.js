@@ -7,5 +7,8 @@ module.exports = {
     output: {
         path: path.join( __dirname, 'web','build'),
         filename: 'rep_log.js',
-    }
+    },
+    watchOptions: {
+        poll: true
+    },
 };

@@ -1,8 +1,9 @@
 'use strict';
 
 const Helper = require('./RepLogAppHelper');
+const $ = require('jquery');
 
-(function(window, $, Routing, swal) {
+(function(window, Routing, swal) {
 
     let HelperInstances = new WeakMap();
 
@@ -63,7 +64,7 @@ const Helper = require('./RepLogAppHelper');
             const $link = $(e.currentTarget);
 
             swal({
-                title: 'Delete this log?',
+                title: 'Delete this log????',
                 text: 'What? Did you not actually lift this?',
                 showCancelButton: true,
                 showLoaderOnConfirm: true,
@@ -215,4 +216,4 @@ const Helper = require('./RepLogAppHelper');
 `;
 
     window.RepLogApp = RepLogApp;
-})(window, jQuery, Routing, swal);
+})(window, Routing, swal);
