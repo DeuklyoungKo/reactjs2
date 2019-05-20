@@ -1,4 +1,5 @@
 // webpack.config.js
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -15,4 +16,11 @@ module.exports = {
     watchOptions: {
         poll: true
     },
+
+    plugins: [
+        new webpack.ProvidePlugin({
+            jQuery: 'jquery',
+            $: 'jquery'
+        })
+    ]
 };
