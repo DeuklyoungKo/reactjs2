@@ -1,13 +1,14 @@
 // webpack.config.js
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = {
     mode: 'development',
     entry: {
-        rep_log: './web/assets/js/rep_log.js',
-        login: './web/assets/js/login.js',
-        layout: './web/assets/js/layout.js',
+        rep_log: './assets/js/rep_log.js',
+        login: './assets/js/login.js',
+        layout: './assets/js/layout.js',
     },
     output: {
         path: path.join( __dirname, 'web','build'),
@@ -22,7 +23,12 @@ module.exports = {
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery'
-        })
+        }),
+
+        new CopyWebpackPlugin([
+            // copies to {output}/static
+            { from: './assets/static', to: 'static' },
+        ]),
     ],
 
     module: {
@@ -43,11 +49,21 @@ module.exports = {
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
-                use: ['file-loader'],
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: '[name]-[hash:6].[ext]'
+                    }
+                }
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
-                use: ['file-loader'],
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: '[name]-[hash:6].[ext]'
+                    }
+                }
             },
         ]
     }
