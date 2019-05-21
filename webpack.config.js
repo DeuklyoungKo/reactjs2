@@ -12,6 +12,7 @@ module.exports = {
     output: {
         path: path.join( __dirname, 'web','build'),
         filename: '[name].js',
+        publicPath: "/build/"
     },
     watchOptions: {
         poll: true
@@ -39,6 +40,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: ['file-loader'],
             },
         ]
     }
