@@ -4,6 +4,9 @@ const Helper = require('./RepLogAppHelper');
 const $ = require('jquery');
 const Swal = require('sweetalert2');
 
+const Routing = require('./Routing');
+
+
 let HelperInstances = new WeakMap();
 
 class RepLogApp {
