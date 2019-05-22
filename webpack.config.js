@@ -47,18 +47,6 @@ module.exports = {
         poll: true
     },
 
-    plugins: [
-        new webpack.ProvidePlugin({
-            jQuery: 'jquery',
-            $: 'jquery'
-        }),
-
-        new CopyWebpackPlugin([
-            // copies to {output}/static
-            { from: './assets/static', to: 'static' },
-        ]),
-    ],
-
     module: {
         rules: [
             {
@@ -111,5 +99,20 @@ module.exports = {
         ]
     },
 
-    devtool: 'inline-source-map'
+    devtool: 'inline-source-map',
+
+
+    plugins: [
+        new webpack.ProvidePlugin({
+            jQuery: 'jquery',
+            $: 'jquery',
+            'window.jQuery': 'jquery',
+        }),
+
+        new CopyWebpackPlugin([
+            // copies to {output}/static
+            { from: './assets/static', to: 'static' },
+        ]),
+    ],
+
 };
