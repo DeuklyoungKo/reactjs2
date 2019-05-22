@@ -3,6 +3,34 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
+const styleLoader = {
+    loader: 'style-loader',
+    options: {
+        sourceMap: true
+    }
+};
+
+const cssLoader = {
+    loader: 'css-loader',
+    options: {
+        sourceMap: true
+    }
+};
+
+const sassLoader = {
+    loader: 'sass-loader',
+    options: {
+        sourceMap: true
+    }
+};
+
+const resolveUrlLoader = {
+    loader: 'resolve-url-loader',
+    options: {
+        sourceMap: true
+    }
+};
+
 module.exports = {
     mode: 'development',
     entry: {
@@ -46,30 +74,17 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader',
-                    'css-loader'
+                    styleLoader,
+                    cssLoader
                 ],
             },
             {
                 test: /\.scss$/,
                 use: [
-                    {
-                        loader: "style-loader", options: {
-                            sourceMap: true
-                        }
-                    }, {
-                        loader: "css-loader", options: {
-                            sourceMap: true
-                        }
-                    }, {
-                        loader: 'resolve-url-loader',
-                    }, {
-                        loader: 'sass-loader',
-                        options: {
-                            sourceMap: true,
-                            sourceMapContents: false
-                        }
-                    }
+                    styleLoader,
+                    cssLoader,
+                    resolveUrlLoader,
+                    sassLoader
                     // 'style-loader',
                     // 'css-loader',
                     // 'sass-loader'
@@ -94,5 +109,7 @@ module.exports = {
                 }
             },
         ]
-    }
+    },
+
+    devtool: 'inline-source-map'
 };
