@@ -1,11 +1,11 @@
 'use strict';
 
-const Helper = require('./RepLogAppHelper');
-const $ = require('jquery');
-const Swal = require('sweetalert2');
+import Helper from './RepLogAppHelper';
+import $ from 'jquery';
+import Swal from 'sweetalert2';
 
-const Routing = require('./Routing');
-const _ = require('lodash/number');
+import Routing from './Routing';
+import random from  'lodash/random';
 
 let HelperInstances = new WeakMap();
 
@@ -187,7 +187,7 @@ class RepLogApp {
         const $form = this.$wrapper.find(RepLogApp._selectors.newRepForm);
         $form[0].reset();
 
-        $form.find('[name="reps"]').val(_.random(1,10));
+        $form.find('[name="reps"]').val(random(1,10));
     }
 
     _addRow(repLog) {
@@ -223,4 +223,5 @@ const rowTemplate = (repLog) => `
 </tr>
 `;
 
-module.exports = RepLogApp;
+// module.exports = RepLogApp;
+export default RepLogApp;
