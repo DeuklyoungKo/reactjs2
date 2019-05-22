@@ -7,13 +7,16 @@ const Swal = require('sweetalert2');
 let HelperInstances = new WeakMap();
 
 class RepLogApp {
-    constructor($wrapper) {
+    constructor($wrapper, initialRepLogs) {
         this.$wrapper = $wrapper;
         this.repLogs = [];
 
         HelperInstances.set(this, new Helper(this.repLogs));
 
-        this.loadRepLogs();
+        // this.loadRepLogs();
+        for (let repLog of initialRepLogs) {
+            this._addRow(repLog);
+        }
 
         this.$wrapper.on(
             'click',
@@ -40,7 +43,7 @@ class RepLogApp {
             newRepForm: '.js-new-rep-log-form'
         }
     }
-
+/*
     loadRepLogs() {
         $.ajax({
             url: Routing.generate('rep_log_list'),
@@ -49,7 +52,7 @@ class RepLogApp {
                 this._addRow(repLog);
             }
         })
-    }
+    }*/
 
     updateTotalWeightLifted() {
         this.$wrapper.find('.js-total-weight').html(
