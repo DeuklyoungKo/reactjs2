@@ -2,6 +2,10 @@
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const useDevServer = false;
+const publicPath = useDevServer ? 'http://localhost:8080/build/' : '/build/'
 
 const styleLoader = {
     loader: 'style-loader',
@@ -31,6 +35,7 @@ const resolveUrlLoader = {
     }
 };
 
+
 module.exports = {
     mode: 'development',
     entry: {
@@ -41,7 +46,7 @@ module.exports = {
     output: {
         path: path.join( __dirname, 'web','build'),
         filename: '[name].js',
-        publicPath: "/build/"
+        publicPath: publicPath
     },
     watchOptions: {
         poll: true
@@ -62,20 +67,35 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    styleLoader,
-                    cssLoader
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it uses publicPath in webpackOptions.output
+                            // publicPath: publicPath,
+                            hmr: process.env.NODE_ENV === 'development',
+                        }
+                    },
+                    // styleLoader,
+                    cssLoader,
                 ],
             },
             {
                 test: /\.scss$/,
                 use: [
-                    styleLoader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it uses publicPath in webpackOptions.output
+                            // publicPath: publicPath,
+                            hmr: process.env.NODE_ENV === 'development',
+                        }
+                    },
+                    // styleLoader,
                     cssLoader,
                     resolveUrlLoader,
                     sassLoader
-                    // 'style-loader',
-                    // 'css-loader',
-                    // 'sass-loader'
                 ],
             },
             {
@@ -108,6 +128,7 @@ module.exports = {
         contentBase: './web',
         hot: true,
         disableHostCheck: true,
+        headers: { 'Access-Control-Allow-Origin': '*' },
     },
 
 /*
@@ -146,7 +167,14 @@ module.exports = {
             { from: './assets/static', to: 'static' },
         ]),
 
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            // filename: '[name].css',
+            // chunkFilename: '[id].css',
+        }),
 
     ],
 /*

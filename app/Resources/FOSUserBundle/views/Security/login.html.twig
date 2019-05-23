@@ -2,7 +2,11 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('build/login.css') }}">
+{% endblock %}
 
 
 {% block javascripts %}
