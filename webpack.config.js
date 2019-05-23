@@ -102,6 +102,38 @@ module.exports = {
     devtool: 'inline-source-map',
 
 
+    devServer: {
+        host: '0.0.0.0',
+        port: 8080,
+        contentBase: './web',
+        hot: true,
+        disableHostCheck: true,
+    },
+
+/*
+    devServer: {
+        contentBase: './web',
+        port: 8080,
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        watchOptions: {
+            poll: true
+        },
+
+        host: '192.168.8.11',
+        allowedHosts: [
+            '192.168.8.1'
+
+
+        hot: true,
+        inline: true,
+        https: {
+            key: fs.readFileSync("/etc/ssl/private/myprivatekey.key"),
+            cert: fs.readFileSync("/etc/ssl/certs/myprivatepem.pem")
+        },
+        public: 'reactjs.test.com:8080'
+    },
+],*/
+
     plugins: [
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
@@ -113,12 +145,9 @@ module.exports = {
             // copies to {output}/static
             { from: './assets/static', to: 'static' },
         ]),
-/*
-        new webpack.optimize.CommonsChunkPlugin({
-           name: 'vendor',
-            minChunks: 2,
-        }),
-        */
+
+        new webpack.HotModuleReplacementPlugin()
+
     ],
 /*
 
