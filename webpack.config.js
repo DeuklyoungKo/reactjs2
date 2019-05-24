@@ -36,8 +36,10 @@ const resolveUrlLoader = {
 };
 
 
-module.exports = {
-    mode: 'development',
+const webpackConfig = {
+    // mode: 'development',
+    mode: "production",
+
     entry: {
         rep_log: './assets/js/rep_log.js',
         login: './assets/js/login.js',
@@ -210,6 +212,6 @@ module.exports = {
             }
         }
     }
-
-
 };
+
+module.exports = webpackConfig;
