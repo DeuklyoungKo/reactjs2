@@ -4,20 +4,26 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const TerserJSPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 const useDevServer = false;
+const useVersioning = true;
 const publicPath = useDevServer ? 'http://localhost:8080/build/' : '/build/'
+const isProduction = process.env.NODE_ENV === 'production';
+const useSourcemaps = !isProduction;
 
 const styleLoader = {
     loader: 'style-loader',
     options: {
-        sourceMap: true
+        sourceMap: useSourcemaps
     }
 };
 
 const cssLoader = {
     loader: 'css-loader',
     options: {
-        sourceMap: true
+        sourceMap: useSourcemaps
     }
 };
 
@@ -31,14 +37,15 @@ const sassLoader = {
 const resolveUrlLoader = {
     loader: 'resolve-url-loader',
     options: {
-        sourceMap: true
+        sourceMap: useSourcemaps
     }
 };
 
 
+console.log(isProduction);
+
 const webpackConfig = {
-    // mode: 'development',
-    mode: "production",
+    mode: isProduction ? "production" : "development",
 
     entry: {
         rep_log: './assets/js/rep_log.js',
@@ -47,7 +54,7 @@ const webpackConfig = {
     },
     output: {
         path: path.join( __dirname, 'web','build'),
-        filename: '[name].js',
+        filename: useVersioning ? '[name].[hash:6].js' : '[name].js',
         publicPath: publicPath
     },
     watchOptions: {
@@ -123,7 +130,6 @@ const webpackConfig = {
 
     devtool: 'inline-source-map',
 
-
     devServer: {
         host: '0.0.0.0',
         port: 8080,
@@ -176,7 +182,16 @@ const webpackConfig = {
             // both options are optional
             // filename: '[name].css',
             // chunkFilename: '[id].css',
+            filename: useVersioning ? '[name].[hash:6].css' : '[name].css',
         }),
+
+
+        // passes these options to all loaders
+        // but we should really pass these ourselves
+        new webpack.LoaderOptionsPlugin({
+            minimize: true,
+            debug: false
+        })
 
     ],
 /*
@@ -189,29 +204,12 @@ const webpackConfig = {
     },
 */
 
+
+// REF) https://webpack.js.org/plugins/mini-css-extract-plugin/#root
+
     optimization: {
-        splitChunks: {
-            chunks: 'async',
-            minSize: 30000,
-            maxSize: 0,
-            minChunks: 1,
-            maxAsyncRequests: 5,
-            maxInitialRequests: 3,
-            automaticNameDelimiter: '~',
-            name: true,
-            cacheGroups: {
-                vendors: {
-                    test: /[\\/]node_modules[\\/]/,
-                    priority: -10
-                },
-                default: {
-                    minChunks: 2,
-                    priority: -20,
-                    reuseExistingChunk: true
-                }
-            }
-        }
-    }
+        minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    },
 };
 
 module.exports = webpackConfig;
