@@ -8,7 +8,8 @@ import 'bootstrap-sass';
 import '../css/main.scss';
 
 // include this on every page to make sure Promise exists
-import 'babel-polyfill';
+// import 'babel-polyfill';
+import 'core-js/stable/promise';
 
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
