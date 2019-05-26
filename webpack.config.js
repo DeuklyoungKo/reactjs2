@@ -60,6 +60,7 @@ const webpackConfig = {
     output: {
         path: path.join( __dirname, 'web','build'),
         filename: useVersioning ? '[name].[chunkhash:6].js' : '[name].js',
+        // chunkFilename: '[name].bundle.js',
         publicPath: publicPath
     },
     watchOptions: {
