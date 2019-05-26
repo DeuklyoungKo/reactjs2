@@ -7,6 +7,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const ManifestPlugin = require('webpack-manifest-plugin');
+
 const useDevServer = false;
 const useVersioning = true;
 const publicPath = useDevServer ? 'http://localhost:8080/build/' : '/build/'
@@ -191,6 +193,12 @@ const webpackConfig = {
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug: false
+        }),
+
+
+        new ManifestPlugin({
+            basePath: "build/",
+            writeToFileEmit: true
         })
 
     ],
